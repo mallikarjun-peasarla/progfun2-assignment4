@@ -1,6 +1,6 @@
 package calculator
 
-import scala.math._
+import scala.math
 
 object Polynomial {
   def computeDelta(a: Signal[Double], b: Signal[Double],
@@ -11,13 +11,9 @@ object Polynomial {
   // -b + rootOf delta / 2a
   def computeSolutions(a: Signal[Double], b: Signal[Double],
       c: Signal[Double], delta: Signal[Double]): Signal[Set[Double]] = {
-    val dval = delta()
-    val aval = a()
-    val bval = b()
-
     Signal(
-      if(dval < 0) Set[Double]()
-      else Set((-bval+sqrt(dval))/2*aval, (-bval-sqrt(dval))/2*aval)
+      if(delta() < 0.0) Set[Double]()
+      else Set((-b()+math.sqrt(delta()))/(2*a()), (-b()-math.sqrt(delta()))/(2*a()))
     )
   }
 }

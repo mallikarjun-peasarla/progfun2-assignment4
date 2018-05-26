@@ -16,15 +16,15 @@ object Calculator {
 
   def eval(expr: Expr, references: Map[String, Signal[Expr]]): Double = {
     expr match {
-      case expr:Ref =>
-        val nexpr = references.find { case (name, _) => name == expr.name }
+      case Ref(name) =>
+        val nexpr = references.find { case (n, _) => n == name }
           .map { case (_, expSig) => expSig() }.getOrElse(Literal(Double.NaN))
-        eval(nexpr, references)
-      case expr: Plus => eval(expr.a, references) + eval(expr.b, references)
-      case expr: Minus => eval(expr.a, references) - eval(expr.b, references)
-      case expr: Times => eval(expr.a, references) * eval(expr.b, references)
-      case expr: Divide => eval(expr.a, references) / eval(expr.b, references)
-      case expr: Literal => expr.v
+        eval(nexpr, references - name)
+      case Plus(a,b) => eval(a, references) + eval(b, references)
+      case Minus(a,b) => eval(a, references) - eval(b, references)
+      case Times(a,b) => eval(a, references) * eval(b, references)
+      case Divide(a,b) => eval(a, references) / eval(b, references)
+      case Literal(v) => v
     }
   }
 
