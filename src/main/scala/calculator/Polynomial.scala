@@ -5,19 +5,19 @@ import scala.math._
 object Polynomial {
   def computeDelta(a: Signal[Double], b: Signal[Double],
       c: Signal[Double]): Signal[Double] = {
-    Signal(b.apply()*b.apply() - 4*a.apply()*c.apply())
+    Signal(b()*b() - 4*a()*c())
   }
 
   // -b + rootOf delta / 2a
   def computeSolutions(a: Signal[Double], b: Signal[Double],
       c: Signal[Double], delta: Signal[Double]): Signal[Set[Double]] = {
-    val dval = delta.apply()
-    val aval = a.apply()
-    val bval = b.apply()
+    val dval = delta()
+    val aval = a()
+    val bval = b()
 
-    val solutions =
+    Signal(
       if(dval < 0) Set[Double]()
       else Set((-bval+sqrt(dval))/2*aval, (-bval-sqrt(dval))/2*aval)
-    Signal(solutions)
+    )
   }
 }
